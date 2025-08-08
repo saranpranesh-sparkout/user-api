@@ -1,9 +1,9 @@
-import User from "../models/userModel";
+import User from "../models/userModel.js";
 export const createUser = async (req,res) => {
  try {
     const{name, age, email, isAdmin} = req.body
      const newUser = await User.create({ name, email, age, isAdmin });
- res.status(201).json(newuser)
+ res.status(201).json(newUser)
  } catch (error) {
     res.status(400).json({message:error.message})
     }   
@@ -12,7 +12,7 @@ export const createUser = async (req,res) => {
 export const getAllUsers = async (req, res) => {
   try {
     const users = await User.find(); 
- User.find() fetches all users from the database.
+ User.find() 
   res.json(users);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -49,6 +49,19 @@ export const updateUser = async (req, res) => {
     }
   } catch (error) {
     res.status(400).json({ message: error.message });
+  }
+};
+
+export const deleteUser = async (req, res) => {
+  try {
+    const deletedUser = await User.findByIdAndDelete(req.params.id)
+        if (deletedUser) {
+      res.json({ message: 'User deleted successfully' });
+} else {
+      res.status(404).json({ message: 'User not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };
 
